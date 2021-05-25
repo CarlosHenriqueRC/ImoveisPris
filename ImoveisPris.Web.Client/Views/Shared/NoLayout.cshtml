@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pris-Imóveis </title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#divCarregando").show();
+            // $(window).bind('load', function () {
+            //     $('#divCarregando').fadeOut("slow");
+            // });
+        });
+
+        $(document).ajaxStop(function () {
+            $("#divCarregando").hide();
+        });
+
+        $(document).ajaxStart(function () {
+            $("#divCarregando").show();
+        });
+
+        $('.numericOnly').on({
+            keydown: function (event) {
+                if (event.keyCode == 13 || event.keyCode == 9 || event.keyCode == 8) {
+                    // let it happen, don't do anything
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if (!((event.keyCode >= 96 || event.keyCode <= 105) || (event.keyCode >= 48 || event.keyCode <= 57))) {
+                        event.preventDefault();
+                    }
+                }
+            }
+        });
+
+        $('.currencyOnly').on({
+            keydown: function (event) {
+                alert()
+                if (event.keyCode == 13 || event.keyCode == 9 || event.keyCode == 8 || event.keyCode == 110 || event.keyCode == 108 || event.keyCode == 190 || event.keyCode == 188) {
+                    // let it happen, don't do anything
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if (!((event.keyCode >= 96 || event.keyCode <= 105) || (event.keyCode >= 48 || event.keyCode <= 57))) {
+                        event.preventDefault();
+                    }
+                }
+            }
+        });
+    </script>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Pris-Imóveis - Consultar Imóveis</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="form-group col-md-12">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    @RenderBody()
+    <footer class="border-top footer text-muted">
+        <div class="container">  &copy; 2021 - Pris Software </div>
+    </footer>
+</body>
+</html>
+@await RenderSectionAsync("Scripts", required: false)
+<div id="divCarregando" class="progress">
+    <img src="~/images/Wait.gif" />
+</div>
+

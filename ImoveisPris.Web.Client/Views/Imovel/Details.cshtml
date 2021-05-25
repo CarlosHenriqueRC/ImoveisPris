@@ -1,0 +1,164 @@
+﻿@model ImoveisPris.Web.Client.Models.Imovel
+@{
+    ViewData["Title"] = "Cadastro de Imóveis";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#divCarregando').fadeOut("slow");
+        $('#txtCep').on({
+            change: function () {
+                var endereco = 'http://viacep.com.br/ws/' + this.value + '/json/';
+                alert(endereco);
+                $.ajax({
+                    url: endereco
+                }).then(function (data) {
+                    $('#txtLogradouro').val(data.logradouro);
+                    $('#txtBairro').val(data.bairro);
+                });
+            }
+        });
+        $('#show-modal').on('show.bs.modal', function (event) {
+            try {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var html = '';
+                var FN = button.data('names');
+                var fileNames = FN.split('|');
+                var active = 'active';
+                fileNames.forEach(function (N) {
+                    html = html + '<div class="carousel-item ' + active + '">';
+                    html = html + '<img class="d-block w-100" src="/images/ImagensImoveis/' + id + '/' + N + '">';
+                    html = html + '</div>';
+                    active = '';
+                });
+                $("#ci").html(html);
+            } catch (ex) {
+                alert(ex.message);
+            }
+        });
+    });
+</script>
+<div class="container">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-md-1">
+                <label for="txtId">Codigo</label>
+                <input type="text" id="txtId" name="txtId" readonly class="form-control" value="@Model.Id" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="ddlTD">Tipo de Disponibilidade</label>
+                @Html.DropDownList("ddlTD", (SelectList)Model.TiposDeDisponibilidade, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                <label for="ddlTI">Tipo de Imovel</label>
+                @Html.DropDownList("ddlTI", (SelectList)Model.TiposDeImovel, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtCep">CEP</label>
+                <input type="text" class="form-control numericOnly" name="txtCep" id="txtCep" value="@Model.CEP">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="txtLogradouro">Logradouro</label>
+                <input type="text" class="form-control" name="txtLogradouro" readonly id="txtLogradouro" value="@Model.Logradouro">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="txtNumero">Numero</label>
+                <input type="text" class="form-control numericOnly" name="txtNumero" id="txtNumero" value="@Model.Numero">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtBairro">Bairro</label>
+                <input type="text" id="txtBairro" name="txtBairro" readonly class="form-control" value="@Model.Bairro" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="txtComplemento">Complemento</label>
+                <input type="text" id="txtComplemento" name="txtComplemento" class="form-control" value="@Model.Complemento" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="txtSuites">Suites</label>
+                <input type="text" id="txtSuites" name="txtSuites" class="form-control numericOnly" value="@Model.suites" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtQuarto">Quartos</label>
+                <input type="text" id="txtQuarto" name="txtQuarto" class="form-control numericOnly" value="@Model.Quartos" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtBanheiro">Banheiros</label>
+                <input type="text" id="txtBanheiro" name="txtBanheiro" class="form-control numericOnly" value="@Model.Banheiros">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtVagas">Vagas</label>
+                <input type="text" id="txtVagas" name="txtVagas" class="form-control numericOnly" value="@Model.Vagas" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="txtArea">Area</label>
+                <input type="text" id="txtArea" name="txtArea" class="form-control currencyOnly" value="@Model.Area" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtValor">Valor</label>
+                <input type="text" id="txtValor" name="txtValor" class="form-control currencyOnly" value="@Model.Valor" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="txtObservacao">Observações</label>
+                <textarea id="txtObservacao" name="txtObservacao" class="form-control" rows="7" cols="50">@Model.Observacoes</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-8">
+                <label for="fileImagens">Adicionar Imagens</label>
+                <input type="file" id="fileImagens" class="form-control" name="fileImagens" multiple />
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ImagesFileNames))
+            { 
+            <div class="form-group col-md-4">
+                <a data-toggle="modal" data-target="#show-modal" data-id="@Model.Id" data-names="@Model.ImagesFileNames" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Fotos </a>
+            </div>
+            }
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <button type="submit" class="btn btn-primary" id="btnSalvar" value="Salvar">Salvar</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="ci">
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Anterior</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Proximo</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="cancel" class="btn btn-default" data-dismiss="modal">Fechar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

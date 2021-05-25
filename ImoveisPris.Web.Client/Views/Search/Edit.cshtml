@@ -1,0 +1,188 @@
+﻿@model ImoveisPris.Web.Client.Models.ReturnSearch
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/NoLayout.cshtml";
+}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#divCarregando').fadeOut("slow");
+            $('#show-modal').on('show.bs.modal', function (event) {
+                try {
+                    var button = $(event.relatedTarget);                    
+                    var id = button.data('id');
+                    var html = '';
+                    var FN = button.data('names');
+                    var fileNames = FN.split('|');
+                    var active = 'active';
+                    fileNames.forEach(function (N) {
+                        html = html + '<div class="carousel-item ' + active + '">';
+                        html = html + '<img class="d-block w-100" src="/images/ImagensImoveis/' + id + '/' + N + '">';
+                        html = html + '</div>';
+                        active = '';
+                    });
+                    $("#ci").html(html);
+                } catch (ex) {
+                    alert(ex.message);
+                }
+            });
+        });
+    </script>
+
+    <div class="container">
+        <form asp-action="Edit" method="post">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="ddlTD">Tipo de Disponibilidade</label>
+                    @Html.DropDownList("ddlTD", (SelectList)Model.TiposDeDisponibilidade, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ddlTI">Tipo de Imovel</label>
+                    @Html.DropDownList("ddlTI", (SelectList)Model.TiposDeImovel, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="txtBairro">Bairro </label>
+                    <input type="text" id="txtBairro" name="txtBairro" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtSuite" class="col-sm-3 col-form-label">Suites : </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtSuite" name="txtSuite" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtSuitee" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtSuitee" name="txtSuitee" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtQuarto" class="col-sm-3 col-form-label">Quartos entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtQuarto" name="txtQuarto" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtQuartoe" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtQuartoe" name="txtQuartoe" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtVagas" class="col-sm-3 col-form-label">Vagas entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtVagas" name="txtVagas" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtVagase" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtVagase" name="txtVagase" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtValor" class="col-sm-3 col-form-label">Valor entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtValor" name="txtValor" class="form-control currencyOnly" value="" />
+                        </div>
+                        <label for="txtValore" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtValore" name="txtValore" class="form-control currencyOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-primary" id="btnConsultar">Consultar</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-default">Voltar</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="30%">Rua</th>
+                                <th width="7%">Numero</th>
+                                <th width="20%">Bairro</th>
+                                <th width="7%">Suites</th>
+                                <th width="7%">Quarto</th>
+                                <th width="7%">Banheiros</th>
+                                <th width="7%">Vagas</th>
+                                <th width="7%">Area</th>
+                                <th width="7%">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.imoveis.Count() > 0)
+                            {
+                                @foreach (Imovel modeL in Model.imoveis)
+                                {
+                            <tr>
+                                <td>@modeL.Logradouro</td>
+                                <td>@modeL.Numero</td>
+                                <td>@modeL.Bairro</td>
+                                <td>@modeL.suites</td>
+                                <td>@modeL.Quartos</td>
+                                <td>@modeL.Banheiros</td>
+                                <td>@modeL.Vagas</td>
+                                <td>@modeL.Area</td>
+                                <td>@modeL.Valor</td>
+                                <td class="actions text-right">
+                                    <a asp-controller="Search" asp-action="Details" asp-route-id=@modeL.Id class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detalhes </a>
+                                    @if (modeL.ImagesFileNames.Trim().Length > 0)
+                                    {
+                                        <a data-toggle="modal" data-target="#show-modal" data-id="@modeL.Id" data-names="@modeL.ImagesFileNames" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Fotos </a>
+                                    }
+                                </td>
+                            </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6">Nenhum registro encontrado.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+<div class="row">
+    <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="ci">
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Anterior</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Proximo</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="cancel" class="btn btn-default" data-dismiss="modal">Fechar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

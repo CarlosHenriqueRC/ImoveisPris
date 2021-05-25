@@ -1,0 +1,17 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="row">
+<h1 class="text-danger">Error</h1>
+</div>
+@if (Model.ShowRequestId)
+{
+<div class="row">
+    <strong>@Model.Mensagem.</strong>
+</div>
+<div class="row">
+    <a class="btn btn-secondary" asp-controller=@Model.NomeDeControllerDestino asp-action=@Model.NomeDaAction><i class="fa fa-plus"></i> Voltar </a>
+</div>
+}
+

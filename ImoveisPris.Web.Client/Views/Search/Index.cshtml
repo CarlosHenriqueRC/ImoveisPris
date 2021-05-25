@@ -1,0 +1,95 @@
+﻿@model ImoveisPris.Web.Client.Models.Imovel
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/NoLayout.cshtml";
+}
+
+    <div class="container">
+        <form asp-action="Edit" method="post">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="ddlTD">Tipo de Disponibilidade</label>
+                    @Html.DropDownList("ddlTD", (SelectList)Model.TiposDeDisponibilidade, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ddlTI">Tipo de Imovel</label>
+                    @Html.DropDownList("ddlTI", (SelectList)Model.TiposDeImovel, new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="txtBairro">Bairro</label>
+                    <input type="text" id="txtBairro" name="txtBairro" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtSuite" class="col-sm-3 col-form-label">Suites : </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtSuite" name="txtSuite" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtSuitee" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtSuitee" name="txtSuitee" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtQuarto" class="col-sm-3 col-form-label">Quartos entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtQuarto" name="txtQuarto" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtQuartoe" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtQuartoe" name="txtQuartoe" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtVagas" class="col-sm-3 col-form-label">Vagas entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtVagas" name="txtVagas" class="form-control numericOnly" value="" />
+                        </div>
+                        <label for="txtVagase" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtVagase" name="txtVagase" class="form-control numericOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="txtValor" class="col-sm-3 col-form-label">Valor entre </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtValor" name="txtValor" class="form-control currencyOnly" value="" />
+                        </div>
+                        <label for="txtValore" class="col-sm-1 col-form-label">e</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtValore" name="txtValore" class="form-control currencyOnly" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary" id="btnConsultar">Consultar</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-default">Voltar</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#divCarregando").fadeOut("slow");
+    });
+    
+</script>

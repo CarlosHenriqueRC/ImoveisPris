@@ -1,0 +1,32 @@
+﻿@model ImoveisPris.Web.Client.Models.TipoDeImovel
+@{
+    ViewData["Title"] = "Cadastro de Tipos de Imóveis";
+}
+
+<div class="container">
+    <form asp-action="Edit" method="post">
+        <div class="row">
+            <div class="form-group">
+                <label for="txtId">Codigo</label>
+                <input type="text" id="txtId" name="txtId" readonly class="form-control" value="@Model.Id" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="txtDescricao">Descrição</label>
+                <input type="text" id="txtDescricao" name="txtDescricao" class="form-control" value="@Model.Descricao" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary" id="btnSalvar" value="Salvar">Salvar</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#divCarregando').fadeOut("slow");
+    }
+</script>

@@ -1,0 +1,110 @@
+﻿@model ImoveisPris.Web.Client.Models.Imovel
+@{
+    ViewData["Title"] = "Cadastro de Imóveis";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#divCarregando').fadeOut("slow");
+        $('#txtCep').on({
+            blur: function () {
+                var endereco = 'http://viacep.com.br/ws/' + this.value + '/json/';
+                $.ajax({
+                    url: endereco
+                }).then(function (data) {
+                    $('#txtLogradouro').prop('readonly', true);
+                    $('#txtBairro').prop('readonly', true);
+                    $('#txtLogradouro').val(data.logradouro);
+                    $('#txtBairro').val(data.bairro);
+                });
+            },
+        });
+    });
+</script>
+<div class="container">
+    <form asp-page-handler="Submit" method="post" enctype="multipart/form-data" >
+        <div class="row">
+            <div class="form-group col-md-1">
+                <label for="txtId">Codigo</label>
+                <input type="text" id="txtId" name="txtId" readonly class="form-control" value="" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="ddlTD">Tipo de Disponibilidade</label>
+                @Html.DropDownList("ddlTD", (SelectList)Model.TiposDeDisponibilidade, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                <label for="ddlTI">Tipo de Imovel</label>
+                @Html.DropDownList("ddlTI", (SelectList)Model.TiposDeImovel, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtCep">CEP</label>
+                <input type="text" class="form-control numericOnly" name="txtCep" id="txtCep" value="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="txtLogradouro">Logradouro</label>
+                <input type="text" class="form-control" name="txtLogradouro" id="txtLogradouro" value="">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="txtNumero">Numero</label>
+                <input type="text" class="form-control numericOnly" name="txtNumero" id="txtNumero" value="">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtBairro">Bairro</label>
+                <input type="text" id="txtBairro" name="txtBairro" class="form-control" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="txtComplemento">Complemento</label>
+                <input type="text" id="txtComplemento" name="txtComplemento" class="form-control" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="txtSuites">Suites</label>
+                <input type="text" id="txtSuites" name="txtSuites" class="form-control numericOnly" value="" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtQuarto">Quartos</label>
+                <input type="text" id="txtQuarto" name="txtQuarto" class="form-control numericOnly" value="" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtBanheiro">Banheiros</label>
+                <input type="text" id="txtBanheiro" name="txtBanheiro" class="form-control numericOnly" value="" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="txtVagas">Vagas</label>
+                <input type="text" id="txtVagas" name="txtVagas" class="form-control numericOnly" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="txtArea">Area</label>
+                <input type="text" id="txtArea" name="txtArea" class="form-control currencyOnly" value="" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="txtValor">Valor</label>
+                <input type="text" id="txtValor" name="txtValor" class="form-control currencyOnly" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="txtObservacao">Observações</label>
+                <textarea id="txtObservacao" name="txtObservacao" class="form-control" rows="7" cols="50"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="fileImagens">Adicionar Imagens</label>
+                <input type="file" id="fileImagens" class="form-control" name="fileImagens" multiple />
+            </div>
+        </div>
+        <div class="row">
+            <div class="gorm group col-md-12">
+                <button type="submit" class="btn btn-primary" id="btnSalvar" value="Salvar">Salvar</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>/

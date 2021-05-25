@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImoveisPris.Domain.Entity\ImoveisPris.Domain.Entity.csproj" />
+    <ProjectReference Include="..\ImoveisPris.Infra.Persistence\ImoveisPris.Infra.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
